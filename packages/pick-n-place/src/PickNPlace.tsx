@@ -101,7 +101,12 @@ const PickNPlace: React.FC<PickNPlaceProps> = ({ items, onOrderChange }) => {
         const clone = el.cloneNode(true) as HTMLElement;
         clone.dataset.clone = "true";
         clone.dataset.index = i.toString();
-        clone.querySelector(".pnp-buttons")?.remove();
+
+        // Remove buttons from clone
+        const buttons = clone.querySelector(".pnp-buttons");
+        if (buttons) {
+          clone.removeChild(buttons);
+        }
 
         clone.classList.add("pnp-clone");
         if (i === index) {
@@ -128,7 +133,13 @@ const PickNPlace: React.FC<PickNPlaceProps> = ({ items, onOrderChange }) => {
       // Create ghost
       const pickedEl = originals[index];
       const ghost = pickedEl.cloneNode(true) as HTMLElement;
-      ghost.querySelector(".pnp-buttons")?.remove();
+
+      // Remove buttons from ghost
+      const ghostButtons = ghost.querySelector(".pnp-buttons");
+      if (ghostButtons) {
+        ghost.removeChild(ghostButtons);
+      }
+
       const ghostRect = pickedEl.getBoundingClientRect();
 
       Object.assign(ghost.style, {
@@ -144,25 +155,52 @@ const PickNPlace: React.FC<PickNPlaceProps> = ({ items, onOrderChange }) => {
 
       // Inject Cancel / Place buttons
       const btnWrap = document.createElement("div");
-      btnWrap.className =
-        "absolute right-3 top-1/2 -translate-y-1/2 flex gap-2";
-      btnWrap.innerHTML = `
-      <button class="pnp-cancel px-3 py-1 text-sm bg-red-600 text-white rounded">Cancel</button>
-      <button class="pnp-place px-3 py-1 text-sm bg-blue-600 text-white rounded">Place</button>
-    `;
+      Object.assign(btnWrap.style, {
+        position: "absolute",
+        right: "12px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        display: "flex",
+        gap: "8px",
+      });
+
+      const cancelBtn = document.createElement("button");
+      cancelBtn.className = "pnp-cancel";
+      Object.assign(cancelBtn.style, {
+        padding: "4px 12px",
+        fontSize: "14px",
+        backgroundColor: "#dc2626",
+        color: "white",
+        border: "none",
+        borderRadius: "4px",
+        cursor: "pointer",
+      });
+      cancelBtn.textContent = "Cancel";
+
+      const placeBtn = document.createElement("button");
+      placeBtn.className = "pnp-place";
+      Object.assign(placeBtn.style, {
+        padding: "4px 12px",
+        fontSize: "14px",
+        backgroundColor: "#2563eb",
+        color: "white",
+        border: "none",
+        borderRadius: "4px",
+        cursor: "pointer",
+      });
+      placeBtn.textContent = "Place";
+
+      btnWrap.appendChild(cancelBtn);
+      btnWrap.appendChild(placeBtn);
       ghost.appendChild(btnWrap);
       document.body.appendChild(ghost);
       ghostRef.current = ghost;
 
-      // Hook up buttons
-      const cancelBtn = btnWrap.querySelector(".pnp-cancel");
-      const placeBtn = btnWrap.querySelector(".pnp-place");
-
       const handleCancel = () => exitPickMode(false);
       const handlePlace = () => exitPickMode(true);
 
-      cancelBtn?.addEventListener("click", handleCancel);
-      placeBtn?.addEventListener("click", handlePlace);
+      cancelBtn.addEventListener("click", handleCancel);
+      placeBtn.addEventListener("click", handlePlace);
 
       // Store handlers for cleanup
       ghostRef.current.dataset.cancelHandler = handleCancel.toString();
@@ -380,27 +418,60 @@ const PickNPlace: React.FC<PickNPlaceProps> = ({ items, onOrderChange }) => {
   return (
     <ol
       ref={listRef}
-      className={`pnp-list relative flex flex-col bg-gray-100 rounded-xl`}
+      className="pnp-list"
       style={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#f3f4f6",
+        borderRadius: "12px",
         gap: `${stylesVariables.olGap}px`,
         padding: `${stylesVariables.olPaddding}px`,
+        listStyle: "none",
+        margin: 0,
       }}
     >
       {internalItems.map((item, index) => (
         <li
           key={item.id}
-          className={`pnp-item pnp-real flex items-center justify-between rounded-lg shadow-sm border`}
+          className="pnp-item pnp-real"
           data-index={index}
           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderRadius: "8px",
+            boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",
+            border: "1px solid #e5e7eb",
+            backgroundColor: "white",
             padding: `${stylesVariables.itemPaddingY}px ${stylesVariables.itemPaddingX}px`,
+            transition: "transform 0.2s ease",
           }}
         >
-          <span className="font-medium text-gray-800">{item.content}</span>
+          <span
+            style={{
+              fontWeight: 500,
+              color: "#1f2937",
+              fontSize: "16px",
+            }}
+          >
+            {item.content}
+          </span>
           <div className="pnp-buttons">
             {pickedIndex === null && (
               <button
                 onClick={() => enterPickMode(index)}
-                className="pnp-pick px-3 text-sm font-semibold rounded-md bg-emerald-600 text-white"
+                className="pnp-pick"
+                style={{
+                  padding: "8px 16px",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  borderRadius: "6px",
+                  backgroundColor: "#059669",
+                  color: "white",
+                  border: "none",
+                  cursor: "pointer",
+                }}
               >
                 Pick
               </button>
