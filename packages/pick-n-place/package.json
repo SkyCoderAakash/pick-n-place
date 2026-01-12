@@ -1,0 +1,21 @@
+{
+  "name": "pick-n-place",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c && tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/react": "^19.2.7",
+    "react": "^19.2.3",
+    "rollup": "^4.54.0",
+    "rollup-plugin-esbuild": "^6.2.1",
+    "typescript": "^5.9.3"
+  }
+}
