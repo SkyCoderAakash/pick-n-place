@@ -2,7 +2,7 @@ import React, { useState, ReactElement } from "react";
 import PickNPlace, {
   type PickNPlaceItem,
   type PickNPlaceItems,
-} from "pick-n-place";
+} from "react-pickplace";
 
 const App: React.FC = () => {
   // Test with original PickNPlaceItem[] format

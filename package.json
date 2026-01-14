@@ -1,5 +1,5 @@
 {
-  "name": "pick-n-place-root",
+  "name": "react-pickplace-root",
   "private": true,
   "workspaces": ["packages/*", "playground"],
   "scripts": {

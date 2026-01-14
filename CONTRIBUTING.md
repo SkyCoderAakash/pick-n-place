@@ -1,6 +1,6 @@
-# Contributing to PickNPlace
+# Contributing to react-pickplace
 
-Thank you for your interest in contributing to **PickNPlace** 🎉  
+Thank you for your interest in contributing to **react-pickplace** 🎉  
 Contributions of all kinds are welcome — bug reports, documentation improvements, feature ideas, and code.
 
 This project explores a **Pick → Scroll → Place** interaction as an alternative to traditional drag-and-drop.
@@ -25,7 +25,7 @@ Harassment, discrimination, or disrespectful behavior will not be tolerated.
 ### Setup
 
 ```bash
-git clone https://github.com/your-username/pick-n-place.git
+git clone https://github.com/SkyCoderAakash/pick-n-place.git
 cd pick-n-place
 npm install
 npm run dev
