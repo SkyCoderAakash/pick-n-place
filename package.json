@@ -7,10 +7,9 @@
     "local": "npm run dev:all",
     "dev:all": "concurrently \"npm run build:watch --workspace react-pickplace\" \"npm run dev --workspace playground\"",
     "build": "npm run build --workspace react-pickplace",
-    "build:all": "npm run build && npm run build --workspace playground",
-    "build:production": "npm run build && npm run build:all",
+    "build:production": "npm run build --workspace react-pickplace && npm run build --workspace playground",
     "preview": "npm run preview --workspace playground",
-    "prepare": "npm run build",
+    "prepare": "npm run build --workspace react-pickplace",
     "type-check": "npm run type-check --workspace react-pickplace"
   },
   "devDependencies": {

@@ -1,7 +1,6 @@
 {
-  "buildCommand": "npm run build:all",
+  "buildCommand": "npm run build --workspace react-pickplace && cd playground && npm run build",
   "outputDirectory": "playground/dist",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "framework": "vite"
+  "devCommand": "cd playground && npm run dev",
+  "installCommand": "npm install"
 }
