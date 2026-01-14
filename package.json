@@ -3,6 +3,13 @@
   "private": true,
   "workspaces": ["packages/*", "playground"],
   "scripts": {
-    "dev": "npm run dev --workspace playground"
+    "dev:all": "concurrently \"npm run build:watch --workspace react-pickplace\" \"npm run dev --workspace playground\"",
+    "build": "npm run build --workspace react-pickplace",
+    "build:all": "npm run build && npm run build --workspace playground",
+    "prepare": "npm run build",
+    "dev": "npm run dev:all"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

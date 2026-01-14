@@ -1,7 +1,7 @@
-export { default } from "./src/PickNPlace";
+export { default } from "./PickNPlace";
 
 export type {
   PickNPlaceItem,
   PickNPlaceItems,
   PickNPlaceProps,
-} from "./src/PickNPlace";
+} from "./PickNPlace";
