@@ -38,7 +38,14 @@ const PickNPlace: React.FC<PickNPlaceProps> = ({ items, onOrderChange }) => {
   const ghostRef = useRef<HTMLElement | null>(null);
   const [pickedIndex, setPickedIndex] = useState<number | null>(null);
   const positionsRef = useRef<PositionItem[]>([]);
-  const prevScrollY = useRef<number>(window.scrollY);
+  const prevScrollY = useRef<number>(0);
+
+  useEffect(() => {
+    prevScrollY.current = window.scrollY;
+  }, []);
+
+  const cancelHandlerRef = useRef<(() => void) | null>(null);
+  const placeHandlerRef = useRef<(() => void) | null>(null);
 
   const [internalItems, setInternalItems] = useState<PickNPlaceItem[]>(() => {
     if (Array.isArray(items) && items.length > 0) {
@@ -166,6 +173,7 @@ const PickNPlace: React.FC<PickNPlaceProps> = ({ items, onOrderChange }) => {
 
       const cancelBtn = document.createElement("button");
       cancelBtn.className = "pnp-cancel";
+      cancelBtn.setAttribute("aria-label", "Cancel button");
       Object.assign(cancelBtn.style, {
         padding: "4px 12px",
         fontSize: "14px",
@@ -179,6 +187,7 @@ const PickNPlace: React.FC<PickNPlaceProps> = ({ items, onOrderChange }) => {
 
       const placeBtn = document.createElement("button");
       placeBtn.className = "pnp-place";
+      placeBtn.setAttribute("aria-label", "Place button");
       Object.assign(placeBtn.style, {
         padding: "4px 12px",
         fontSize: "14px",
@@ -198,6 +207,9 @@ const PickNPlace: React.FC<PickNPlaceProps> = ({ items, onOrderChange }) => {
 
       const handleCancel = () => exitPickMode(false);
       const handlePlace = () => exitPickMode(true);
+
+      cancelHandlerRef.current = handleCancel;
+      placeHandlerRef.current = handlePlace;
 
       cancelBtn.addEventListener("click", handleCancel);
       placeBtn.addEventListener("click", handlePlace);
@@ -227,14 +239,8 @@ const PickNPlace: React.FC<PickNPlaceProps> = ({ items, onOrderChange }) => {
         const placeBtn = ghost.querySelector(".pnp-place");
 
         // Remove event listeners
-        cancelBtn?.removeEventListener(
-          "click",
-          eval(`(${ghost.dataset.cancelHandler})`)
-        );
-        placeBtn?.removeEventListener(
-          "click",
-          eval(`(${ghost.dataset.placeHandler})`)
-        );
+        cancelBtn?.removeEventListener("click", cancelHandlerRef.current!);
+        placeBtn?.removeEventListener("click", placeHandlerRef.current!);
       }
 
       if (isPlace) {
@@ -460,6 +466,7 @@ const PickNPlace: React.FC<PickNPlaceProps> = ({ items, onOrderChange }) => {
           <div className="pnp-buttons">
             {pickedIndex === null && (
               <button
+                aria-label="Pick button"
                 onClick={() => enterPickMode(index)}
                 className="pnp-pick"
                 style={{

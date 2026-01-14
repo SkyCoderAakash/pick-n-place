@@ -1,5 +1,5 @@
 {
-  "name": "pick-n-place",
+  "name": "react-pickplace",
   "version": "1.0.1",
   "type": "module",
   "main": "dist/index.js",
@@ -7,13 +7,26 @@
   "scripts": {
     "build": "rollup -c && tsc"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "reorder",
+    "list",
+    "sortable",
+    "pick",
+    "drag",
+    "ui"
+  ],
+  "description": "A dragless pick-and-place reorderable list component for React",
   "author": "",
   "license": "ISC",
-  "description": "",
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
   "devDependencies": {
-    "@types/react": "^19.2.7",
     "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "@types/react": "^19.2.7",
     "rollup": "^4.54.0",
     "rollup-plugin-esbuild": "^6.2.1",
     "typescript": "^5.9.3"
